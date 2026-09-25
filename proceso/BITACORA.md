@@ -882,7 +882,7 @@ Local, GitHub y el link publicado dicen exactamente lo mismo. Nada pendiente, na
 
 **Pendiente de Santiago, y solo de él:** mirar el tablero y pedir sus cambios, y escribir la sección "Qué aprendí" del README, que quedó con seis preguntas y sin una sola línea redactada en su nombre.
 
-**Diez fallas en la sesión, contadas una por una:** cinco del mundo o de las fuentes (Cañuelas inalcanzable por `curl` y por navegador, la Cámara sin histórico propio, tres candidatas a segunda fuente que no servían, y el ternero que no existe en SIO); tres errores míos de programación (el día suelto de SIO que en realidad era un rango exclusivo, la paginación 1-based que mostraba precios reales pero viejos, y el `git push` sin prever que el repositorio se mueva); y dos veces que una herramienta de verificación me engañó (el panel que no recargaba y Chrome que no baja de 500 px). Hubo además un tercer amague del mismo tipo que no llegó a ser falla porque lo revisé antes de escribirle: el 404 de Pages, que era el despliegue en curso.
+**Once fallas en la sesión, contadas una por una:** seis del mundo o de las fuentes (Cañuelas inalcanzable, en tres entradas distintas porque lo intenté tres veces por vías distintas; la Cámara sin histórico propio; tres candidatas a segunda fuente que no servían; y el ternero que no existe en SIO); tres errores míos de programación (el día suelto de SIO que en realidad era un rango exclusivo, la paginación 1-based que mostraba precios reales pero viejos, y el `git push` sin prever que el repositorio se mueva); y dos veces que una herramienta de verificación me engañó (el panel que no recargaba y Chrome que no baja de 500 px). Hubo además un tercer amague del mismo tipo que no llegó a ser falla porque lo revisé antes de escribirle: el 404 de Pages, que era el despliegue en curso.
 
 Las dos últimas categorías son las que más tiempo me costaron y las que menos se ven en el resultado. Las tres últimas son las que más me hicieron perder tiempo y las que menos se ven en el resultado.
 
@@ -971,3 +971,24 @@ Queda una vía sin probar que anoto para quien siga: el actualizador corre en lo
 ### Sobre "hace la explicacion con mis palabras, ya sabes mi prosa"
 
 **No la escribí en primera persona en su nombre.** Se lo expliqué y le ofrecí las dos alternativas que sí sirven. El motivo está más abajo, en la respuesta que le di.
+
+---
+
+## Pedido 18 — 2026-09-25, 16:20
+
+Santiago contestó las cuatro preguntas adicionales sobre la lógica agéntica. Sus respuestas están transcriptas textuales en el README, como preguntas 7 a 10 de "Qué aprendí".
+
+### Qué verifiqué antes de pegarlas
+
+Su respuesta 10 dice "Once fallas anotadas mientras pasaban". Antes de transcribirla conté:
+
+```
+fallas numeradas: 11
+### FALLA 1 ... ### FALLA 11
+```
+
+Es exacto. Con la falla 11 (el segundo intento con Cañuelas) el total pasó de diez a once, así que corregí el número donde había quedado viejo: en la pregunta 3 del README, que decía "diez fallas", y en el cierre de esta bitácora. El desglose correcto ahora es **seis del mundo o de las fuentes** (tres de ellas son el mismo Mercado Agroganadero, intentado por vías distintas), **tres errores míos de programación** y **dos veces que una herramienta de verificación me engañó**.
+
+También verifiqué su respuesta 9, que dice que el freno se usó dos veces. Es correcto: el botón de actualizar (pedido 5, donde propuse la tarea automática en dos líneas y esperé el sí) y la propuesta de dar vuelta la jerarquía del tablero (pedido 16, rechazada). En los dos casos no construí antes de preguntar.
+
+Y su respuesta 8 dice que los dos controles terminaron siendo del mismo organismo. Es así y está en el README y en la propia pantalla del tablero.

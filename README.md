@@ -286,7 +286,7 @@ Eligió el caso del ternero. Lo respondió a través de tres preguntas más chic
 
 > habrias puesto un numero ficticio generando un problema en la informacion y por ende en la toma de decisiones
 
-**3. El agente anotó diez fallas: cinco del mundo (sitios caídos, un dataset abandonado en 2019, un sitio que prohíbe leerlo, la Cámara sin histórico, el ternero que no existe), tres errores propios de programación (la paginación, el día suelto de SIO, el `git push`) y dos veces que una herramienta de verificación lo engañó. ¿Cambia en algo tu confianza en el resultado saber que están todas escritas? ¿Preferirías no verlas?**
+**3. El agente anotó once fallas: seis del mundo o de las fuentes (tres de ellas son el mismo Mercado Agroganadero, intentado por vías distintas; más un dataset abandonado en 2019, un sitio que prohíbe leerlo, y el ternero que no existe), tres errores propios de programación (la paginación, el día suelto de SIO, el `git push`) y dos veces que una herramienta de verificación lo engañó. ¿Cambia en algo tu confianza en el resultado saber que están todas escritas? ¿Preferirías no verlas?**
 
 > me da mas confianza porque el error esta identificado
 
@@ -301,3 +301,20 @@ Eligió el caso del ternero. Lo respondió a través de tres preguntas más chic
 **6. Si mañana tuvieras que pedirle esto mismo a un agente desde cero, ¿qué le dirías distinto en el primer mensaje?**
 
 > intentaria ser mas especifico en el mensaje inicial para trabajar mas eficientemente con el gasto de tokens y no perder tiempo con algo que no me servira totalmente
+
+**7. ¿Qué es para vos un agente, después de haber trabajado con uno hoy? ¿En qué se diferencia de pedirle algo a un buscador?**
+
+> Un agente no te da links: hace el trabajo. Buscó las fuentes, chequeó si podía leerlas, escribió el código, lo corrió y cambió el plan tres veces cuando lo que vio no era lo que esperaba. Un buscador no te dice que el ternero no existe en SIO ni que a Cañuelas no se llega desde esta máquina.
+
+**8. De todo lo que hizo hoy, ¿qué le delegarías de nuevo sin mirar, y qué querrías revisar siempre vos antes de que siga?**
+
+> Sin mirar: traer los datos, regenerar el tablero, correr los 16 controles y publicar — eso ya corrió solo y quedó la corrida como prueba. Con revisión siempre: las tres decisiones que fijó el agente (el corte del 70%, publicar antes de avisar, guardar el respaldo) y la elección de fuentes, porque los dos controles terminaron siendo del mismo organismo.
+
+**9. ¿Hubo algún momento en que sentiste que el agente iba para un lado que vos no querías? ¿Cómo lo frenaste?**
+
+> El freno estaba escrito en el primer mensaje: proponer en dos líneas y esperar, no construir. Se usó dos veces — con el botón de actualizar, que no existía, y con la propuesta de dar vuelta el tablero, que se rechazó y quedó como estaba.
+
+**10. ¿Qué te llevás de haber visto las fallas anotadas en vivo en lugar de un informe prolijo al final?**
+
+> Once fallas anotadas mientras pasaban, incluidas dos en las que el agente casi arregla algo que no estaba roto. Un informe prolijo al final diría "fuente: SIO Carnes" y no diría que la fuente natural era Cañuelas ni por qué no está.
+
