@@ -812,3 +812,74 @@ El commit lo firma `github-actions[bot]`, no Santiago: lo hizo la tarea, no una 
 La corrida anterior había fallado por el choque de push, no por permisos. Lo había dejado escrito antes de esta corrida, así que lo sostengo con lo que pasó: **el arreglo era el correcto y el permiso de escritura de Actions ya estaba bien.** No hubo que tocar nada en Settings.
 
 El paso "Avisar si alguna fuente no respondió" quedó en `skipped`, que es lo que corresponde cuando las dos fuentes contestaron. Esa rama del workflow, la de la falla, sigue sin haberse ejercitado de verdad en GitHub: lo único probado de esa rama es la parte del tablero, que sí se probó en esta Mac rompiendo el host a propósito.
+
+---
+
+## Pedido 13 — 2026-09-25, 15:45
+
+Sin texto: Santiago mandó una captura de GitHub Desktop con el cartel
+
+> **Newer Commits on Remote**
+> GitHub Desktop is unable to push commits to this branch because there are commits on the remote that are not present on your local branch. Fetch these new commits before pushing in order to reconcile them with your local commits.
+
+### Qué hice con él
+
+Nada de código: es el mismo choque de antes, pero ahora del lado de él, y no tiene nada de malo. El bot publicó `6518469` y su copia no lo tenía. Le dije que apretara `Fetch`, después `Pull origin` y recién ahí `Push origin`, y que de acá en adelante le va a pasar seguido porque la tarea commitea sola dos veces por día.
+
+Lo anoto porque es una consecuencia de la automatización que no había previsto ni avisado: **al agregarle una tarea que escribe en el repositorio, le cambié el flujo de trabajo a él.** Ahora tiene que traer antes de subir. Queda escrito en el README.
+
+---
+
+## Pedido 14 — 2026-09-25, 15:48
+
+Texto literal de Santiago:
+
+> listo
+
+Hizo Fetch, Pull y Push.
+
+### Verificación final
+
+```
+=== local ===
+10d4f0c Merge branch 'main' of https://github.com/sspp404/tablero-granos-hacienda
+138cc68 Update BITACORA.md
+6518469 Cotizaciones al 2026-09-25 12:43
+9058931 Arreglar el push de la tarea cuando el repositorio se movio
+
+=== en GitHub ===
+10d4f0c | santiagoparis404     | Merge branch 'main' of ...
+138cc68 | santiagoparis404     | Update BITACORA.md
+6518469 | github-actions[bot]  | Cotizaciones al 2026-09-25 12:43
+9058931 | santiagoparis404     | Arreglar el push de la tarea ...
+
+=== el dato local coincide con el del link? ===
+  local : 2026-09-25T15:41:51
+  link  : 2026-09-25T15:41:51
+```
+
+Local, GitHub y el link publicado dicen exactamente lo mismo. Nada pendiente, nada suelto.
+
+---
+
+## Estado al cierre de la sesión — 2026-09-25, 15:50
+
+**Anda y está verificado corriendo de verdad:**
+
+- El tablero abre con doble clic (`file://`) y desde el link de Pages, `https://sspp404.github.io/tablero-granos-hacienda/`, que responde 200 y sirve el mismo archivo byte a byte.
+- Entra en una pantalla en 1440×950 y baja a una columna en 375 px sin desbordar.
+- Trae datos oficiales de dos organismos, con 16 controles cruzados que corren en cada actualización y quedan a la vista en la propia página.
+- Si una fuente cae, conserva el último dato bueno y avisa con el error literal (probado rompiendo el host a propósito).
+- No inventa ningún número: la categoría que la fuente no tiene queda marcada SIN DATO con el motivo.
+- La tarea automática corrió sola de punta a punta: buscó, encontró una rueda más nueva, commiteó, publicó y el link quedó al día.
+
+**No está verificado y lo digo igual:**
+
+- El disparo por horario (`cron`) nunca ocurrió todavía. Lo probado es el disparo manual, que hace lo mismo.
+- La rama de falla de la tarea en GitHub quedó en `skipped`: nunca se ejercitó allá, solo en esta Mac.
+- Los dos controles son del mismo organismo en cada mercado. No detectan un error del que publica.
+- El umbral de 70% que separa "definitivo" de "provisorio" en hacienda lo fijé yo, no la fuente.
+
+**Pendiente de Santiago, y solo de él:** mirar el tablero y pedir sus cambios, y escribir la sección "Qué aprendí" del README, que quedó con seis preguntas y sin una sola línea redactada en su nombre.
+
+**Diez fallas en la sesión.** Tres del mundo (Cañuelas caído, un dataset abandonado en 2019, un sitio que prohíbe leerlo), cuatro errores míos de programación o de método (la paginación 1-based que mostraba precios reales pero viejos, el día suelto de SIO que en realidad era un rango exclusivo, el `git push` sin prever que el repositorio se mueva, y avisar de un corte en el teléfono que no existía) y tres veces que una herramienta de verificación me mintió o se quedó corta (el panel que no recargaba, Chrome que no baja de 500 px, y el 404 de Pages que era solo el despliegue en curso). Las tres últimas son las que más me hicieron perder tiempo y las que menos se ven en el resultado.

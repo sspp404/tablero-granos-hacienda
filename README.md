@@ -126,6 +126,44 @@ Los pedidos de Santiago, textuales, en orden, con su ortografía.
 
 > Si, hacelo. Tiene que ser simple para cualquier miembro de la empresa
 
+**Pedido 7 — 2026-09-25, 13:34:**
+
+> Solo falta commit para que quede funciona do?
+
+**Pedido 8 — 2026-09-25, 13:36:**
+
+> Ok
+
+(Respuesta a "¿arranco con el paso 1?". Se tomó como un sí al commit local y nada más.)
+
+**Pedido 9 — 2026-09-25, 15:0x:**
+
+> listo
+
+(Después de publicar el repositorio desde GitHub Desktop.)
+
+**Pedido 10 — 2026-09-25, 15:17:**
+
+> listo
+
+(Después de activar GitHub Pages.)
+
+**Pedido 11 — 2026-09-25, 15:26.** Sin texto: mandó una captura de la corrida fallida de GitHub Actions.
+
+**Pedido 12 — 2026-09-25, 15:41:**
+
+> listo
+
+(Después de empujar el arreglo y volver a disparar la tarea.)
+
+**Pedido 13 — 2026-09-25, 15:45.** Sin texto: mandó una captura del cartel "Newer Commits on Remote" de GitHub Desktop.
+
+**Pedido 14 — 2026-09-25, 15:48:**
+
+> listo
+
+(Después de hacer Fetch, Pull y Push.)
+
 ## Qué funciona
 
 Probado el 2026-09-25. Las capturas de cada prueba están en `proceso/evidencia/`.
@@ -150,7 +188,23 @@ y el tablero quedó con los precios de granos en pantalla, una franja roja arrib
 
 **Ningún número se inventa.** Cuando la fuente no tiene el dato, la ficha queda vacía y explica el motivo. Es el caso de Ternero: SIO Carnes se arma con liquidaciones de hacienda con destino a faena y el ternero va a invernada, así que esa categoría no existe en la fuente. Se muestra igual, marcada `SIN DATO`.
 
-**La actualización automática está escrita y probada hasta donde se puede probar sin el repositorio.** Es una tarea de GitHub Actions que corre a las 07:00 y a las 18:00 de Argentina, vuelve a generar el tablero y lo publica, más un botón "Run workflow" para correrla a mano desde el navegador. Verificado localmente: el YAML es válido, y la lógica de publicación se probó en un repositorio de prueba en los dos casos —sin cambios imprime `Sin cambios: la rueda es la misma` y no commitea; con cambios commitea—. Si una fuente no responde, la tarea igual publica el tablero con el último dato bueno y el aviso rojo, y además deja la corrida marcada en rojo en GitHub para que se entere el dueño del repositorio.
+**La actualización automática funciona de punta a punta, y está verificada corriendo de verdad.** Es una tarea de GitHub Actions que corre a las 07:00 y a las 18:00 de Argentina, vuelve a generar el tablero y lo publica, más un botón "Run workflow" para dispararla a mano desde el navegador sin tocar una terminal.
+
+En la corrida del 2026-09-25 a las 15:41 UTC (id 36155897020) pasó todo esto sin que nadie interviniera: la tarea salió a buscar los datos, encontró que la Cámara ya había publicado la pizarra del 24/09 (el tablero tenía la del 23), regeneró el archivo, lo commiteó y lo publicó. El commit lo firma el bot, no una persona:
+
+```
+6518469 | github-actions[bot] | Cotizaciones al 2026-09-25 12:43
+```
+
+Después Pages se redesplegó solo y el link quedó con el dato nuevo:
+
+```
+actualizado      2026-09-25T15:41:51
+rueda granos     2026-09-24     (antes era el 23)
+rueda hacienda   2026-09-24
+```
+
+Si una fuente no responde, la tarea igual publica el tablero con el último dato bueno y el aviso rojo, y recién después deja la corrida marcada en rojo en GitHub para que le llegue el aviso al dueño del repositorio. Publicar primero y avisar después, en ese orden, porque la regla es que el tablero nunca se quede sin mostrar el último dato bueno.
 
 **Los 16 controles corren en cada actualización y quedan a la vista** en el panel "Control contra la segunda fuente" del propio tablero. En la corrida del 2026-09-25: 15 coinciden y 1 queda en N/D (Ternero, no hay nada que controlar).
 
@@ -173,6 +227,8 @@ y el tablero quedó con los precios de granos en pantalla, una franja roja arrib
 - **El Índice Novillo del Ministerio está abandonado.** El CSV de datos abiertos descarga bien pero su última fila es `2019-01-31`, y el endpoint en vivo (`/IndiceNovillo/GetPrecios`) devuelve `[]`. Era la mejor candidata a control independiente de hacienda.
 - **`matbarofex.com.ar` no respondió** en ninguno de los tres intentos (`HTTP 000`).
 
+- **La tarea automática falló en su primera corrida, por un defecto mío.** Había escrito `git push` a secas, sin prever que alguien pueda commitear mientras la tarea trabaja. Pasó en el primer intento: la tarea hizo checkout de `62ae3fc` y, mientras buscaba los datos, llegó otro commit al repositorio; GitHub rechazó el push. Se reprodujo el choque en un repositorio de prueba para confirmar la causa antes de tocar nada —el error es `! [rejected] main -> main (fetch first)`— y se arregló con `fetch-depth: 0` en el checkout y hasta tres intentos que ante un rechazo hacen `git pull --rebase --autostash` antes de volver a empujar. La corrida siguiente salió bien. Está contado paso a paso en la bitácora.
+
 **Limitaciones de lo que sí quedó funcionando**
 
 - **Los dos controles son del mismo organismo.** Para granos, la Cámara y la Bolsa de Comercio de Rosario son dos sitios distintos pero publican el mismo dato de base. Para hacienda, los dos endpoints son de SIO. Con las fuentes que quedaron disponibles no se consiguió un control verdaderamente independiente. El tablero lo dice en pantalla, no solo acá.
@@ -184,7 +240,9 @@ y el tablero quedó con los precios de granos en pantalla, una franja roja arrib
 
 **Falta**
 
-- **La tarea automática todavía no corrió de verdad.** El repositorio ya está publicado, pero a la hora de escribir esto la única corrida registrada en Actions es la del despliegue de Pages. Falta dispararla una vez y confirmar tres cosas: que el permiso de escritura (`contents: write`) esté habilitado en Settings → Actions → General, que el `git push` entre, y que el horario caiga donde tiene que caer.
+- **El horario automático todavía no se disparó solo.** Lo que está probado corriendo de verdad es el disparo manual, que hace exactamente lo mismo. El primer disparo por horario será a las 07:00 de Argentina; hasta que no ocurra, la línea `cron` del archivo no está verificada en la práctica.
+- **La rama de falla de la tarea nunca se ejercitó en GitHub.** El paso "Avisar si alguna fuente no respondió" quedó en `skipped` porque las dos fuentes contestaron. Que el tablero conserve el último dato bueno sí está probado, pero en esta Mac, rompiendo el host a propósito, no en GitHub.
+- **Hay que hacer Fetch y Pull antes de subir algo.** La tarea commitea sola dos veces por día, así que la copia local queda atrás seguido. GitHub Desktop avisa con "Newer Commits on Remote" y se resuelve con Fetch → Pull → Push.
 - Que Santiago mire el tablero y pida sus cambios.
 
 ## Qué aprendí
