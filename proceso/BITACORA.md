@@ -591,3 +591,97 @@ rama: main
 ```
 
 Rama `main`, que es la que espera GitHub Pages. No subí nada a ningún lado: esto vive solo en la Mac.
+
+---
+
+## Pedidos 9 y 10 — 2026-09-25, 15:0x y 15:1x
+
+Texto literal de Santiago, las dos veces:
+
+> listo
+
+El primero fue después de publicar el repositorio desde GitHub Desktop; el segundo, después de activar Pages.
+
+### Qué hice con el primero
+
+No le creí de palabra, verifiqué. Herramienta: `Bash` + `curl` contra la API de GitHub.
+
+```
+origin  https://github.com/sspp404/tablero-granos-hacienda.git
+repo: sspp404/tablero-granos-hacienda | privado: False | rama default: main
+has_pages: False
+```
+
+Público y en `main`, como hacía falta. **Observé algo que no esperaba:** en GitHub había dos commits, no uno.
+
+```
+62ae3fc | Update BITACORA.md
+b819628 | Tablero de cotizaciones de granos y hacienda en pie
+```
+
+El segundo es mío. El primero lo hizo GitHub Desktop: yo seguí escribiendo la bitácora después de commitear, y él publicó con esos cambios adentro. Está bien que quedara: es la bitácora de esta misma sesión.
+
+### Qué hice con el segundo
+
+Primero chequeo, y dio mal:
+
+```
+=== estado de Pages segun la API ===
+respuesta: Not Found
+=== el link responde? ===
+https://sspp404.github.io/tablero-granos-hacienda/ -> HTTP 404
+```
+
+**Acá casi cometo el error de la falla 8 por tercera vez**: estuve por decirle que no había guardado bien. Antes de escribirle, miré si GitHub había arrancado algo:
+
+```
+corridas registradas: 1
+ - pages build and deployment | in_progress | None | 2026-09-25T15:17:36Z | dynamic
+```
+
+Estaba desplegando. El 404 era el estado normal de los primeros segundos, no un error suyo. Dejé un chequeo corriendo en segundo plano cada 20 segundos:
+
+```
+[intento 1] 17:18:03 -> HTTP 404
+[intento 2] 17:18:23 -> HTTP 200
+PAGES ARRIBA
+```
+
+Veinte segundos. Si le escribía apenas vi el 404, lo mandaba a revisar algo que ya estaba bien.
+
+### Verificación final del link
+
+```
+HTTP/2 200
+content-type: text/html; charset=utf-8
+content-length: 32550
+last-modified: Fri, 25 Sep 2026 15:18:16 GMT
+```
+
+El archivo que sirve Pages es **byte a byte el mismo** que el local:
+
+```
+252570836f23bab907f1f696cdde9a69c96b18b74a2087a628fcdc15d79d348f  (Pages)
+252570836f23bab907f1f696cdde9a69c96b18b74a2087a628fcdc15d79d348f  (local)
+```
+
+Y abierto de verdad en el navegador, no solo descargado:
+
+```
+{ url: "https://sspp404.github.io/tablero-granos-hacienda/",
+  fichas: 11, sinDato: 1, controles: 16, avisos: 0, desborda: false }
+```
+
+Once fichas, la de Ternero marcada `SIN DATO`, los 16 controles, ningún aviso de error y sin desborde horizontal.
+
+**Y acá cerré la duda que había quedado abierta de la falla 9.** Como ahora es una página web de verdad y no un archivo local, el navegador de la app sí puede emularla en pantalla de teléfono, cosa que con `file://` no se podía:
+
+```
+{ ancho: 375, scrollW: 375, desborda: false, columnas: 1 }
+```
+
+375 px de ancho, una sola columna, nada que se corta. Lo que antes solo podía afirmar por el CSS, ahora está medido.
+
+### Lo que sigue faltando
+
+La tarea de actualización automática **todavía no corrió**. La única corrida registrada en Actions es la del despliegue de Pages. Hasta que no se dispare una vez no puedo confirmar el permiso de escritura ni que el `git push` entre. Le voy a pedir que apriete el botón.

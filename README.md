@@ -8,6 +8,8 @@ Es un archivo HTML suelto: abre con doble clic, sin instalar nada y sin servidor
 
 Está hecho para que el responsable de la empresa y los stakeholders abran una pantalla a la mañana y no tengan que entrar a ningún sitio.
 
+**El tablero en vivo: https://sspp404.github.io/tablero-granos-hacienda/**
+
 **Archivos**
 
 | Archivo | Qué es |
@@ -128,6 +130,8 @@ Los pedidos de Santiago, textuales, en orden, con su ortografía.
 
 Probado el 2026-09-25. Las capturas de cada prueba están en `proceso/evidencia/`.
 
+**El link de Pages abre de verdad.** Verificado el 2026-09-25 a las 15:18 UTC: `https://sspp404.github.io/tablero-granos-hacienda/` responde `HTTP 200` y el archivo que sirve es byte a byte el mismo que el local (mismo SHA-256, `2525708...`). Abierto en el navegador muestra las once fichas, la de Ternero marcada `SIN DATO`, los 16 controles y ningún aviso de error. En pantalla de teléfono (375 px) baja a una sola columna y no desborda.
+
 **El tablero abre con doble clic.** Sin servidor, sin instalar nada, protocolo `file://`. Los datos están embebidos en el propio `index.html`, que es justamente lo que permite que funcione así y también desde un link. Entra completo en una pantalla de 1440×950: once fichas, sin scroll para ver los precios. Cero errores de consola. Modo oscuro incluido (`proceso/evidencia/tablero-modo-oscuro.png`).
 
 **Trae datos oficiales reales.** En la corrida del 2026-09-25: granos de la rueda del 23/09 (23 ruedas de historia por mercadería) y hacienda de la rueda del 24/09, con el promedio semanal de las últimas 5 semanas que publica SIO.
@@ -180,9 +184,8 @@ y el tablero quedó con los precios de granos en pantalla, una franja roja arrib
 
 **Falta**
 
-- **La tarea automática todavía no corrió de verdad.** No existe hasta que el repositorio esté en GitHub. Lo probado es el YAML y la lógica de commit en local; falta ver una corrida real y confirmar que el horario y los permisos de escritura están bien.
+- **La tarea automática todavía no corrió de verdad.** El repositorio ya está publicado, pero a la hora de escribir esto la única corrida registrada en Actions es la del despliegue de Pages. Falta dispararla una vez y confirmar tres cosas: que el permiso de escritura (`contents: write`) esté habilitado en Settings → Actions → General, que el `git push` entre, y que el horario caiga donde tiene que caer.
 - Que Santiago mire el tablero y pida sus cambios.
-- Publicarlo en GitHub con Pages y verificar que el link abra.
 
 ## Qué aprendí
 
