@@ -321,7 +321,7 @@ Eligió el caso del ternero. Lo respondió a través de tres preguntas más chic
 
 > habrias puesto un numero ficticio generando un problema en la informacion y por ende en la toma de decisiones
 
-**3. El agente anotó once fallas: seis del mundo o de las fuentes (tres de ellas son el mismo Mercado Agroganadero, intentado por vías distintas; más un dataset abandonado en 2019, un sitio que prohíbe leerlo, y el ternero que no existe), tres errores propios de programación (la paginación, el día suelto de SIO, el `git push`) y dos veces que una herramienta de verificación lo engañó. ¿Cambia en algo tu confianza en el resultado saber que están todas escritas? ¿Preferirías no verlas?**
+**3. El agente anotó doce fallas: siete del mundo, de las fuentes o de la plataforma (tres de ellas son el mismo Mercado Agroganadero, intentado por vías distintas; más un dataset abandonado en 2019, un sitio que prohíbe leerlo, el ternero que no existe, y el disparo por horario de GitHub que no ocurrió), tres errores propios de programación (la paginación, el día suelto de SIO, el `git push`) y dos veces que una herramienta de verificación lo engañó. ¿Cambia en algo tu confianza en el resultado saber que están todas escritas? ¿Preferirías no verlas?**
 
 > me da mas confianza porque el error esta identificado
 
@@ -352,4 +352,6 @@ Eligió el caso del ternero. Lo respondió a través de tres preguntas más chic
 **10. ¿Qué te llevás de haber visto las fallas anotadas en vivo en lugar de un informe prolijo al final?**
 
 > Once fallas anotadas mientras pasaban, incluidas dos en las que el agente casi arregla algo que no estaba roto. Un informe prolijo al final diría "fuente: SIO Carnes" y no diría que la fuente natural era Cañuelas ni por qué no está.
+
+*(Esta respuesta se escribió cuando había once fallas anotadas. Después apareció la doce: el intento de verificar el disparo por horario, que GitHub no ejecutó. Se deja el texto de Santiago como lo dictó y se aclara acá, en vez de retocarlo.)*
 
