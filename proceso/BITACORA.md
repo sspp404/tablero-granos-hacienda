@@ -1021,3 +1021,51 @@ Qué hice con él: no le escribí la respuesta. Le pasé los hechos crudos del c
 ### Por qué lo anoto en vez de taparlo
 
 Los tres son mensajes donde él decidía algo o me corregía el rumbo, que es exactamente lo que esta bitácora tiene que registrar. Que se me hayan pasado tres de dieciocho es un dato sobre cómo trabajé, no un detalle de formato: los perdí en el tramo final, cuando estaba encadenando verificaciones y respondiendo rápido. El control que los encontró fue contar los pedidos del README contra los de la bitácora, y lo hice recién al cierre. Debería haberlo hecho antes.
+
+---
+
+## Pedido 19 — 2026-09-25, 16:33
+
+Texto literal de Santiago:
+
+> ok
+
+Aceptó la propuesta de agregar un `cron` temporal para verificar hoy mismo que el disparo por horario funciona, ya que no podía esperar al de mañana a las 07:00.
+
+### FALLA 12 — El disparo por horario no ocurrió
+
+Agregué un `cron` a las 16:53 UTC, lo verifiqué en `main` antes de la hora con 17 minutos de margen:
+
+```
+UTC ahora: 16:36:30
+ultimo commit en GitHub: 2df4ec9 | Cron temporal para verificar el disparo por h
+--- el cron esta en main? ---
+8:    - cron: "53 16 * * *"    # TEMPORAL 2026-09-25
+```
+
+Y me quedé mirando las corridas. **Nunca disparó.** A las 17:05 UTC, doce minutos pasada la hora, la lista de corridas no tenía ninguna con `event: schedule`:
+
+```
+[53] 17:04:03Z -> todavia-no
+[54] 17:04:33Z -> todavia-no
+[55] 17:05:03Z -> todavia-no
+no disparo en el tiempo de espera
+```
+
+Las únicas corridas del día siguen siendo la manual de las 15:41 (`workflow_dispatch`, exitosa) y los despliegues de Pages.
+
+Es un comportamiento conocido de GitHub: los disparos por horario **no son puntuales** y pueden demorarse o saltearse, sobre todo en repositorios con poca actividad. Lo había avisado antes de probar, así que no es una sorpresa que ahora acomodo: era el resultado posible y salió ese.
+
+Saqué el `cron` temporal. Dejarlo hubiera sido peor que no haberlo puesto: iba a quedar corriendo todos los días a las 16:53 sin ningún motivo.
+
+**Queda como estaba: el disparo por horario sigue sin estar verificado.** Lo que está probado corriendo de verdad es el disparo manual, que hace exactamente lo mismo: mismo job, mismos pasos, mismo push. El primero por horario será mañana a las 07:00 de Argentina, y Santiago va a poder verlo en la pestaña Actions.
+
+### Una falla mía en el medio, chica pero real
+
+El primer vigilante que dejé corriendo se rompió:
+
+```
+json.decoder.JSONDecodeError: Invalid control character at: line 84 column 72 (char 4352)
+```
+
+Un mensaje de commit con un salto de línea le rompió el `json.load`. Lo rehice con `strict=False` y anduvo. Perdí un minuto, no cambió nada del resultado, pero lo anoto porque la regla era anotar todo.

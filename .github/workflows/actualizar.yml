@@ -5,8 +5,6 @@ on:
     # Horarios en UTC. Argentina es UTC-3.
     - cron: "0 10 * * 1-6"   # 07:00 de Argentina, para que este listo a la manana
     - cron: "0 21 * * 1-5"   # 18:00 de Argentina, despues de que se fija la pizarra
-    - cron: "53 16 * * *"    # TEMPORAL 2026-09-25: solo para comprobar que el disparo
-                             # por horario funciona de verdad. Se saca apenas se verifique.
   workflow_dispatch:          # y el boton "Run workflow" para correrlo a mano
 
 permissions:
