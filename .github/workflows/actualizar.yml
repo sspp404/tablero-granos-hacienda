@@ -1,0 +1,50 @@
+name: Actualizar cotizaciones
+
+on:
+  schedule:
+    # Horarios en UTC. Argentina es UTC-3.
+    - cron: "0 10 * * 1-6"   # 07:00 de Argentina, para que este listo a la manana
+    - cron: "0 21 * * 1-5"   # 18:00 de Argentina, despues de que se fija la pizarra
+  workflow_dispatch:          # y el boton "Run workflow" para correrlo a mano
+
+permissions:
+  contents: write
+
+concurrency:
+  group: actualizar
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Traer las cotizaciones
+        id: traer
+        continue-on-error: true
+        run: python3 actualizar.py
+
+      - name: Publicar el tablero actualizado
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html datos/datos.json
+          if git diff --cached --quiet; then
+            echo "Sin cambios: la rueda es la misma que la de la corrida anterior."
+            exit 0
+          fi
+          git commit -m "Cotizaciones al $(TZ=America/Argentina/Buenos_Aires date '+%Y-%m-%d %H:%M')"
+          git push
+
+      - name: Avisar si alguna fuente no respondio
+        if: steps.traer.outcome == 'failure'
+        run: |
+          echo "::warning::Una fuente no respondio. El tablero quedo publicado con el ultimo dato bueno y muestra el aviso en pantalla."
+          echo "Una fuente no respondio en esta corrida." >> "$GITHUB_STEP_SUMMARY"
+          echo "El tablero sigue en linea con el ultimo dato bueno y avisa en pantalla que esta desactualizado." >> "$GITHUB_STEP_SUMMARY"
+          exit 1

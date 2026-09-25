@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cotizaciones · granos y hacienda</title>
+<style>
+  :root{
+    --fondo:#f4f5f3; --panel:#ffffff; --borde:#e0e2dd; --texto:#1b1d1a;
+    --suave:#6a6f66; --sube:#1f7a4d; --baja:#b23a2f; --quieto:#6a6f66;
+    --aviso-f:#fdf4e3; --aviso-b:#e8d5a8; --aviso-t:#7a5a12;
+    --alarma-f:#fbeceb; --alarma-b:#e8b7b2; --alarma-t:#8c2f26;
+    --acento:#2f5d3f;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --fondo:#14161a; --panel:#1c1f24; --borde:#2c3038; --texto:#e8eaec;
+      --suave:#949aa3; --sube:#5fc08a; --baja:#e8776b; --quieto:#949aa3;
+      --aviso-f:#2e2716; --aviso-b:#5a4a22; --aviso-t:#e3c274;
+      --alarma-f:#2e1a18; --alarma-b:#5e2f2a; --alarma-t:#f0a49a;
+      --acento:#7fbf96;
+    }
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; padding:16px 16px 36px; background:var(--fondo); color:var(--texto);
+    font:15px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .hoja{max-width:1460px;margin:0 auto}
+  header{display:flex;flex-wrap:wrap;gap:12px;align-items:baseline;justify-content:space-between;margin-bottom:6px}
+  h1{font-size:20px;margin:0;letter-spacing:-.2px}
+  h1 span{color:var(--suave);font-weight:400}
+  .sello{font-size:12.5px;color:var(--suave);font-variant-numeric:tabular-nums}
+  .aviso{
+    margin:14px 0;padding:10px 13px;border-radius:9px;font-size:13.5px;
+    background:var(--aviso-f);border:1px solid var(--aviso-b);color:var(--aviso-t);
+  }
+  .aviso.alarma{background:var(--alarma-f);border-color:var(--alarma-b);color:var(--alarma-t)}
+  .aviso b{font-weight:650}
+  h2{
+    font-size:12px;text-transform:uppercase;letter-spacing:.9px;color:var(--suave);
+    margin:20px 0 9px;font-weight:650;display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;
+  }
+  h2 em{font-style:normal;text-transform:none;letter-spacing:0;font-weight:400;font-size:12px}
+  h2 a{color:var(--suave)}
+  .grilla{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(196px,1fr))}
+  .ficha{
+    background:var(--panel);border:1px solid var(--borde);border-radius:12px;
+    padding:12px 13px 10px;display:flex;flex-direction:column;gap:2px;min-height:168px;
+  }
+  .ficha.hueco{opacity:.72}
+  .fila1{display:flex;align-items:center;justify-content:space-between;gap:8px}
+  .nombre{font-weight:650;font-size:15px}
+  .marca{
+    font-size:10.5px;letter-spacing:.4px;text-transform:uppercase;font-weight:650;
+    padding:2.5px 7px;border-radius:999px;border:1px solid var(--borde);color:var(--suave);white-space:nowrap;
+  }
+  .marca.definitivo{color:var(--sube);border-color:color-mix(in srgb,var(--sube) 40%,transparent)}
+  .marca.provisorio,.marca.estimativo{color:var(--aviso-t);border-color:var(--aviso-b);background:var(--aviso-f)}
+  .marca.viejo,.marca.sin-dato{color:var(--alarma-t);border-color:var(--alarma-b);background:var(--alarma-f)}
+  .precio{font-size:23px;font-weight:660;letter-spacing:-.7px;font-variant-numeric:tabular-nums;margin-top:8px}
+  .precio small{font-size:12.5px;font-weight:400;color:var(--suave);letter-spacing:0;margin-left:3px}
+  .mov{font-size:13px;font-variant-numeric:tabular-nums;font-weight:600;margin-top:1px}
+  .mov.sube{color:var(--sube)} .mov.baja{color:var(--baja)} .mov.quieto{color:var(--quieto)}
+  .mov span{color:var(--suave);font-weight:400}
+  .pie{font-size:11px;color:var(--suave);margin-top:auto;padding-top:9px;line-height:1.5}
+  .pie b{color:var(--texto);font-weight:600}
+  svg.chispa{display:block;width:100%;height:28px;margin:8px 0 2px;overflow:visible}
+  .motivo{font-size:12px;color:var(--suave);margin-top:10px;line-height:1.5}
+  details{margin-top:26px;border-top:1px solid var(--borde);padding-top:14px}
+  summary{cursor:pointer;font-size:12px;text-transform:uppercase;letter-spacing:.9px;color:var(--suave);font-weight:650}
+  details .cuerpo{margin-top:12px;font-size:13px;color:var(--suave);line-height:1.6}
+  ul.controles{list-style:none;padding:0;margin:10px 0 0}
+  ul.controles li{padding:5px 0;border-bottom:1px dashed var(--borde);display:flex;gap:9px;align-items:flex-start}
+  ul.controles li:last-child{border-bottom:0}
+  .pill{font-size:10px;font-weight:700;letter-spacing:.4px;padding:2px 6px;border-radius:5px;margin-top:2px;white-space:nowrap}
+  .pill.si{background:color-mix(in srgb,var(--sube) 17%,transparent);color:var(--sube)}
+  .pill.no{background:var(--alarma-f);color:var(--alarma-t)}
+  .pill.na{background:var(--borde);color:var(--suave)}
+  .ctrl-t{color:var(--texto)}
+  footer{margin-top:28px;font-size:12px;color:var(--suave);line-height:1.65}
+  footer a{color:var(--suave)}
+  footer p.comoFunciona{color:var(--texto)}
+  .leyenda{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+  .leyenda b{font-weight:650;color:var(--texto)}
+</style>
+</head>
+<body>
+<div class="hoja" id="hoja"></div>
+
+<script>
+var DATOS = /*__DATOS__*/null;
+
+var MESES = ["ene","feb","mar","abr","may","jun","jul","ago","sep","oct","nov","dic"];
+
+function dia(iso){
+  if(!iso) return "—";
+  var p = iso.split("-");
+  return parseInt(p[2],10) + " " + MESES[parseInt(p[1],10)-1];
+}
+function pesos(n, dec){
+  if(n === null || n === undefined) return "—";
+  return "$" + n.toLocaleString("es-AR",{minimumFractionDigits:dec,maximumFractionDigits:dec});
+}
+function esc(t){
+  return String(t==null?"":t).replace(/[&<>"]/g, function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];
+  });
+}
+function diasEntre(a,b){
+  return Math.round((new Date(b+"T00:00:00") - new Date(a+"T00:00:00"))/86400000);
+}
+
+function chispa(valores){
+  if(!valores || valores.length < 2) return "";
+  var an = 100, al = 30, min = Math.min.apply(null,valores), max = Math.max.apply(null,valores);
+  var rango = (max - min) || 1;
+  var pts = valores.map(function(v,i){
+    var x = (i/(valores.length-1))*an;
+    var y = al - ((v-min)/rango)*(al-5) - 2.5;
+    return x.toFixed(2)+","+y.toFixed(2);
+  });
+  var sube = valores[valores.length-1] >= valores[0];
+  var color = sube ? "var(--sube)" : "var(--baja)";
+  var ult = pts[pts.length-1].split(",");
+  return '<svg class="chispa" viewBox="0 0 '+an+' '+al+'" preserveAspectRatio="none" aria-hidden="true">'
+    + '<polyline points="'+pts.join(" ")+'" fill="none" stroke="'+color
+    + '" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>'
+    + '<circle cx="'+ult[0]+'" cy="'+ult[1]+'" r="2.1" fill="'+color+'"/></svg>';
+}
+
+function movimiento(it){
+  if(it.var_pct === undefined || it.var_pct === null || !it.anterior) return '<div class="mov quieto">—</div>';
+  var v = it.var_pct, clase = Math.abs(v) < 0.005 ? "quieto" : (v > 0 ? "sube" : "baja");
+  var flecha = Math.abs(v) < 0.005 ? "=" : (v > 0 ? "▲" : "▼");
+  return '<div class="mov '+clase+'">'+flecha+" "+ (v>0?"+":"") + v.toFixed(2) + "%"
+       + ' <span>contra el '+dia(it.anterior.fecha)+"</span></div>";
+}
+
+function ficha(it, dec){
+  if(it.sin_dato){
+    return '<article class="ficha hueco"><div class="fila1"><span class="nombre">'+esc(it.nombre)+'</span>'
+      + '<span class="marca sin-dato">sin dato</span></div>'
+      + '<div class="motivo">'+esc(it.motivo)+'</div></article>';
+  }
+  var serie = (it.serie_semanal && it.serie_semanal.length >= 2)
+      ? {v: it.serie_semanal.map(function(x){return x.precio;}), t: "promedio semanal, últimas " + it.serie_semanal.length + " semanas"}
+      : {v: (it.serie||[]).map(function(x){return x.precio;}), t: (it.serie||[]).length + " ruedas"};
+
+  var pie = [];
+  if(it.usd) pie.push("US$ " + it.usd.toLocaleString("es-AR",{minimumFractionDigits:2,maximumFractionDigits:2}) + "/t");
+  if(it.sin_cotizacion) pie.push("sin cotización en la rueda: la Cámara publica un estimativo");
+  if(it.completitud !== undefined && it.completitud !== null)
+    pie.push("<b>"+it.completitud+"%</b> del volumen habitual cargado ("+it.cabezas.toLocaleString("es-AR")+" cabezas)");
+  if(it.ultimo_firme)
+    pie.push("último cierre firme: <b>"+pesos(it.ultimo_firme.precio,dec)+"</b> el "+dia(it.ultimo_firme.fecha));
+  pie.push(serie.t);
+
+  return '<article class="ficha"><div class="fila1"><span class="nombre">'+esc(it.nombre)+'</span>'
+    + '<span class="marca '+esc(it.firmeza)+'">'+esc(it.firmeza)+'</span></div>'
+    + '<div class="precio">'+pesos(it.precio,dec)+'<small>'+esc(it.unidad)+'</small></div>'
+    + movimiento(it)
+    + chispa(serie.v)
+    + '<div class="pie">'+pie.join("<br>")+'</div></article>';
+}
+
+function bloque(b, titulo, dec, hoy){
+  if(!b) return "";
+  var avisos = "";
+  if(b.ok === false){
+    avisos += '<div class="aviso alarma"><b>'+titulo+': dato desactualizado.</b> '
+      + 'La fuente no respondió en el último intento ('+esc((b.intento||"").replace("T"," ").slice(0,16))+'). '
+      + 'Lo que ves es el último dato bueno, del '+esc((b.actualizado||"").slice(0,10))+'. '
+      + 'Error: <code>'+esc(b.error)+'</code></div>';
+  }
+  var atraso = b.rueda ? diasEntre(b.rueda, hoy) : null;
+  if(b.ok !== false && atraso !== null && atraso > 3){
+    avisos += '<div class="aviso"><b>'+titulo+': la última rueda es del '+dia(b.rueda)+'</b>, hace '
+      + atraso + ' días. El dato está viejo.</div>';
+  }
+  var items = (b.items||[]).map(function(it){ return ficha(it, dec); }).join("");
+  return avisos
+    + '<h2>'+titulo+' <em>· rueda del '+dia(b.rueda)+' · <a href="'+esc(b.url)+'" target="_blank" rel="noopener">'
+    + esc(b.fuente)+'</a></em></h2><div class="grilla">'+items+'</div>';
+}
+
+function listaControles(b, titulo){
+  if(!b || !b.controles) return "";
+  return "<p><b class=\"ctrl-t\">"+titulo+"</b></p><ul class=\"controles\">" + b.controles.map(function(c){
+    var cl = c.ok === true ? "si" : (c.ok === false ? "no" : "na");
+    var tx = c.ok === true ? "COINCIDE" : (c.ok === false ? "NO COINCIDE" : "N/D");
+    return '<li><span class="pill '+cl+'">'+tx+'</span><span><span class="ctrl-t">'+esc(c.que)+'</span><br>'+esc(c.detalle)+'</span></li>';
+  }).join("") + "</ul>";
+}
+
+function dibujar(){
+  var h = document.getElementById("hoja");
+  if(!DATOS){
+    h.innerHTML = '<div class="aviso alarma"><b>No hay datos cargados.</b> '
+      + 'Hay que correr <code>python3 actualizar.py</code> para generar el tablero.</div>';
+    return;
+  }
+  var hoy = new Date().toISOString().slice(0,10);
+  var sello = (DATOS.actualizado||"").replace("T"," ").slice(0,16);
+  var malos = [DATOS.granos, DATOS.hacienda].filter(function(b){ return b && b.ok === false; }).length;
+
+  var html = '<header><h1>Cotizaciones <span>· granos y hacienda en pie</span></h1>'
+    + '<div class="sello">datos traídos el '+esc(sello)+(malos?' · <b>con fallas</b>':'')+'</div></header>';
+
+  html += bloque(DATOS.granos,   "Granos",   2, hoy);
+  html += bloque(DATOS.hacienda, "Hacienda en pie", 2, hoy);
+
+  html += '<details><summary>Control contra la segunda fuente</summary><div class="cuerpo">'
+    + '<p>Cada número del tablero se compara contra una segunda consulta antes de mostrarse. '
+    + 'Esto detecta que una página quedó cacheada, que un dato se leyó mal, que una fuente devolvió otra cosa '
+    + 'o que las dos publicaciones de un mismo organismo no dicen lo mismo. '
+    + '<b class="ctrl-t">No puede detectar</b> un error del organismo que publica: si la Cámara o SIO publican mal, '
+    + 'las dos consultas van a decir lo mismo y el control va a dar que coincide.</p>'
+    + listaControles(DATOS.granos, "Granos")
+    + listaControles(DATOS.hacienda, "Hacienda")
+    + '</div></details>';
+
+  html += '<footer><div class="leyenda">'
+    + '<span><b>definitivo</b>: precio cerrado por la fuente.</span> '
+    + '<span><b>estimativo</b>: no hubo operaciones y la Cámara publica una estimación, marcada (E). Solo aparece en granos.</span> '
+    + '<span><b>provisorio</b>: la rueda todavía se está cargando; el promedio puede moverse. Solo aparece en hacienda.</span> '
+    + '<span><b>viejo</b>: pasaron más de 3 días sin rueda nueva.</span>'
+    + '</div><p class="comoFunciona">Esta página se rehace sola dos veces por día con lo último que publicaron las fuentes oficiales. '
+    + 'No hay nada que instalar ni que apretar: alcanza con abrir el link. '
+    + 'El sello de arriba a la derecha dice de cuándo es el dato que estás viendo, y si alguna fuente no respondió aparece un aviso rojo.</p>'
+    + '<p>Granos en $/t, entrega enseguida, pago contado, puesto sobre camión o vagón en zona Rosario. '
+    + 'Hacienda en $/kg vivo, promedio ponderado de las liquidaciones de compraventa con destino a faena. '
+    + 'Los dos mercados publican con rezago: la fecha de cada bloque es la de la rueda, no la de hoy.</p></footer>';
+
+  h.innerHTML = html;
+}
+dibujar();
+</script>
+</body>
+</html>
