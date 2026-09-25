@@ -292,7 +292,7 @@ Si una fuente no responde, la tarea igual publica el tablero con el último dato
 
 **Falta**
 
-- **El horario automático todavía no se disparó solo.** Lo que está probado corriendo de verdad es el disparo manual, que hace exactamente lo mismo. El primer disparo por horario será a las 07:00 de Argentina; hasta que no ocurra, la línea `cron` del archivo no está verificada en la práctica.
+- **El horario automático no está verificado, y se intentó verificarlo sin éxito.** El día de la entrega se agregó un `cron` temporal a las 16:53 UTC, confirmado en `main` con 17 minutos de margen; doce minutos después de la hora GitHub seguía sin ejecutarlo, así que el `cron` temporal se quitó. Es un comportamiento conocido: los disparos por horario de GitHub pueden demorarse o saltearse, sobre todo en repositorios con poca actividad. Lo que sí está probado corriendo de verdad es el disparo manual, que ejecuta el mismo job con los mismos pasos y el mismo push. El primero por horario será a las 07:00 de Argentina y se verá en la pestaña Actions.
 - **La rama de falla de la tarea nunca se ejercitó en GitHub.** El paso "Avisar si alguna fuente no respondió" quedó en `skipped` porque las dos fuentes contestaron. Que el tablero conserve el último dato bueno sí está probado, pero en esta Mac, rompiendo el host a propósito, no en GitHub.
 - **Hay que hacer Fetch y Pull antes de subir algo.** La tarea commitea sola dos veces por día, así que la copia local queda atrás seguido. GitHub Desktop avisa con "Newer Commits on Remote" y se resuelve con Fetch → Pull → Push.
 - Que Santiago mire el tablero y pida sus cambios.
