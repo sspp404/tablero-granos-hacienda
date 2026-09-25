@@ -915,3 +915,17 @@ Su respuesta 1 dice que todo lo que hice se lo pregunté antes. Le avisé que no
 Al armar la pregunta 3 conté las fallas y no me daban. Yo había escrito en el cierre "tres del mundo, cuatro errores míos, tres de herramientas", que suma diez pero está mal categorizado. El recuento real, falla por falla, es **cinco del mundo o de las fuentes, tres errores míos de programación y dos veces que una herramienta de verificación me engañó**. Corregido en la bitácora y en el README.
 
 También quedó viejo un dato del README: decía que el tablero mostraba granos del 23/09, y después de la corrida automática pasó a mostrar el 24/09. Corregido.
+
+---
+
+## Pedido 16 — 2026-09-25, 16:05
+
+Le propuse en dos líneas, sin construir nada, dar vuelta la jerarquía del tablero: que el gráfico de tendencia mandara sobre el número del día, porque en su respuesta 5 dijo que en la empresa deciden por tendencia histórica.
+
+Texto literal de Santiago:
+
+> no, porque el grafico historico tambien lo podemos ver
+
+### Qué hice con él
+
+Nada. Dijo que no y el tablero queda como está. Lo anoto porque es una decisión suya sobre el diseño, no una omisión mía: la propuesta existió, la evaluó y la rechazó con un motivo.
