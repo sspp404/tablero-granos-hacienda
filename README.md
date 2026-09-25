@@ -41,6 +41,22 @@ python3 actualizar.py --sin-bajar   # solo redibuja con lo ya guardado, sin red
 | Granos | [Cámara Arbitral de Cereales de Rosario](https://www.cac.bcr.com.ar/es/precios-de-pizarra) — pizarra del día y consulta histórica | [Bolsa de Comercio de Rosario, Cotizaciones Locales](https://www.bcr.com.ar/es/mercados/mercado-de-granos/cotizaciones/cotizaciones-locales-0) |
 | Hacienda | [SIO Carnes](https://siocarnes.magyp.gob.ar/MonitorSioCarnes/MonitorSioCarnes?idAnimal=1&animal=BOVINO) — Secretaría de Agricultura (MAGyP), con AFIP y SENASA | El Resumen de precios por subcategoría del mismo SIO, ponderado por cabezas |
 
+**Cómo trabajó el agente**
+
+Esto lo escribe el agente sobre sí mismo. Son hechos verificables contra `proceso/BITACORA.md`, no una reflexión de Santiago.
+
+El agente no ejecutó un plan cerrado: repitió un ciclo de **planear, actuar, observar y volver a planear**. Importa porque tres veces lo que observó le cambió el plan, y ninguna de las tres se podía prever antes de mirar:
+
+1. **Planeó** leer la pizarra de Rosario para sacar el precio del día. Al **observar** el HTML encontró que la Cámara ya publica ella misma las marcas `S/C` y `(E)`. **Replaneó**: la escala de firmeza de granos dejó de ser un criterio a inventar y pasó a ser un dato a transcribir.
+2. **Planeó** sumar las subcategorías de SIO ponderando por cabezas para llegar a "Novillo". Al **observar** el JavaScript del Monitor encontró que SIO publica el promedio por categoría y el promedio semanal ya calculados. **Replaneó**: dejó de derivar números y pasó a copiarlos. Menos cuenta propia, menos lugar donde equivocarse.
+3. **Planeó** mostrar las seis categorías de hacienda. Al **observar** que Ternero volvía vacío, pidió el listado completo de subcategorías y encontró que no existe ninguna "Bovino Ternero": SIO se arma con hacienda con destino a faena y el ternero va a invernada. **Replaneó**: la ficha queda en pantalla marcada `SIN DATO` con el motivo, en vez de desaparecer o rellenarse.
+
+**Las herramientas, y qué habilitó cada una.** Leer y escribir archivos (el tablero, el actualizador, esta documentación). Correr comandos (pedir las fuentes, medir el ancho de la página, reproducir un choque de `git push` en un repositorio de prueba, consultar la API de GitHub). Buscar en internet: así apareció la página de consultas históricas de la Cámara, que no estaba enlazada desde ningún lado y sin la cual no había ni historia ni variación contra la rueda anterior. Y abrir un navegador de verdad: sin eso no se podía confirmar que la página publicada rinde, ni medirla a 375 px.
+
+**Quién decidió qué.** Santiago fijó el objetivo, el alcance (qué mercaderías y categorías), las reglas sobre los datos, la forma de actualización, los límites de tiempo y la publicación; y trajo una fuente que el agente no había considerado, la Bolsa de Comercio de Rosario, que terminó siendo el mejor control del trabajo. El agente decidió qué fuentes usar y cuáles descartar, cómo estructurar el tablero, cómo programar el actualizador y qué controles correr. Tres decisiones del agente quedan explícitamente marcadas porque no salen de ninguna fuente: el umbral de 70% que separa "definitivo" de "provisorio", publicar el tablero antes de marcar la corrida como fallida, y guardar el HTML crudo de cada consulta como respaldo.
+
+**Lo que el agente se negó a hacer, y por qué importa.** No leyó la Cámara Arbitral de Bahía Blanca, que hubiera sido el mejor control independiente de granos, porque su `robots.txt` dice `Disallow: /`. No esquivó el desafío de Cloudflare de la Bolsa de Cereales de Buenos Aires. No completó el precio del ternero. Y no dio por buena la ventaja fácil: en dos ocasiones estuvo por reportar un problema que no existía —un corte en pantalla de teléfono y un aviso que no aparecía— y en las dos la causa era la herramienta con que estaba verificando, no el tablero. Las dos están contadas como fallas propias.
+
 ## Cómo se lo pedí
 
 Los pedidos de Santiago, textuales, en orden, con su ortografía.
@@ -231,6 +247,7 @@ Si una fuente no responde, la tarea igual publica el tablero con el último dato
 
 **Limitaciones de lo que sí quedó funcionando**
 
+- **El Mercado Agroganadero de Cañuelas quedó afuera, y en el segundo intento se supo por qué.** Era la fuente natural de hacienda en pie. El sitio está vivo y publicando —hay notas de estos días con sus precios—, pero este equipo no llega al rango de IPs donde vive (188.114.96.0/24 y 188.114.97.0/24, de Cloudflare): ni por IPv4, ni por IPv6, ni a nivel de abrir el puerto 443. No es Cloudflare bloqueado en general: en la misma prueba `bolsadecereales.com`, que también es Cloudflare, contestó desde otra IP. Es un problema de ruteo entre esta red y ese rango, y no se arregla desde acá. Queda una vía sin probar: el actualizador corre en los servidores de GitHub, que tienen otra red, y puede que desde allá sí se llegue.
 - **Los dos controles son del mismo organismo.** Para granos, la Cámara y la Bolsa de Comercio de Rosario son dos sitios distintos pero publican el mismo dato de base. Para hacienda, los dos endpoints son de SIO. Con las fuentes que quedaron disponibles no se consiguió un control verdaderamente independiente. El tablero lo dice en pantalla, no solo acá.
 - **No hay ternero.** Explicado arriba. Si la empresa necesita precio de invernada, hace falta otra fuente, que no se buscó porque excedía lo pedido.
 - **Hacienda no es el precio de un mercado concentrador, es el promedio país de las liquidaciones de faena.** Es un número oficial y auditable, pero no es lo mismo que la pizarra de Cañuelas. Para un tomador de decisiones de la empresa, la diferencia importa y conviene tenerla presente.

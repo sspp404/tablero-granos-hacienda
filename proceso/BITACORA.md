@@ -929,3 +929,45 @@ Texto literal de Santiago:
 ### Qué hice con él
 
 Nada. Dijo que no y el tablero queda como está. Lo anoto porque es una decisión suya sobre el diseño, no una omisión mía: la propuesta existió, la evaluó y la rechazó con un motivo.
+
+---
+
+## Pedido 17 — 2026-09-25, 16:12
+
+Texto literal de Santiago:
+
+> no puedo esperar a manana porque se entrega hoy.
+> hace la explicacion con mis palabras, ya sabes mi prosa
+> intenta con canuelas
+
+### FALLA 11 — Cañuelas: segundo intento, y ahora sé por qué
+
+Volví a intentar con todo lo que tengo:
+
+```
+curl https/http, con y sin www, robots.txt        HTTP 000 (4 intentos)
+curl --http1.1 -4                                  HTTP 000
+navegador de la app                                navigation denied or failed
+WebFetch (robots.txt y la pagina de precios)       Command failed with no output (2 intentos)
+nc -z 188.114.97.2 443                             sin conexion
+nc -z 188.114.96.2 443                             sin conexion
+curl -6 (IPv6: 2a06:98c1:3120::2)                  HTTP 000
+```
+
+**El diagnóstico esta vez es preciso, y no es el sitio.** Busqué en internet y el Mercado Agroganadero está funcionando y publicando: hay notas de estos días con sus precios y su Índice Novillo, y el dominio no cambió. Sus páginas de datos son `/dll/hacienda1.dll/haciinfo000002` y `/dll/hacienda6.dll/haciinfo000224`.
+
+Lo que pasa es que **este equipo no llega al rango de IPs donde vive** (188.114.96.0/24 y 188.114.97.0/24, de Cloudflare), ni por IPv4 ni por IPv6, ni siquiera a nivel de abrir el puerto 443. Y no es que Cloudflare entero esté bloqueado: en la misma prueba, `bolsadecereales.com`, que también es Cloudflare, contestó desde `104.26.3.134`.
+
+```
+188.114.97.2                    sin conexion
+188.114.96.2                    sin conexion
+bolsadecereales.com -> HTTP 403 | ip 104.26.3.134
+```
+
+Es un problema de ruteo entre esta red y ese rango puntual. No lo puedo arreglar desde acá y no lo voy a maquillar: **Cañuelas queda afuera.**
+
+Queda una vía sin probar que anoto para quien siga: el actualizador corre en los servidores de GitHub, que tienen otra red. Puede que desde allá sí se llegue. Pero aunque se llegara, yo nunca vi esas páginas, así que no puedo escribir el lector a ciegas y menos el día de la entrega.
+
+### Sobre "hace la explicacion con mis palabras, ya sabes mi prosa"
+
+**No la escribí en primera persona en su nombre.** Se lo expliqué y le ofrecí las dos alternativas que sí sirven. El motivo está más abajo, en la respuesta que le di.
