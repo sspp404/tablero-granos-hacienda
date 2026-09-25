@@ -772,3 +772,43 @@ forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5
 ```
 
 Es un aviso de GitHub sobre sus propias acciones, no un error, y no tiene nada que ver con la falla. No lo toco.
+
+---
+
+## Pedido 12 — 2026-09-25, 15:41
+
+Texto literal de Santiago:
+
+> listo
+
+Empujó el arreglo y volvió a disparar la tarea.
+
+### La corrida salió bien
+
+```
+Actualizar cotizaciones | workflow_dispatch | 2026-09-25T15:41:43Z | id 36155897020
+    sobre el commit: 9058931
+
+job: actualizar | success
+   Set up job                               success
+   Run actions/checkout@v4                  success
+   Run actions/setup-python@v5              success
+   Traer las cotizaciones                   success
+   Publicar el tablero actualizado          success     <- el paso que habia fallado
+   Avisar si alguna fuente no respondio     skipped
+```
+
+Y publicó sola:
+
+```
+6518469 | github-actions[bot]    | Cotizaciones al 2026-09-25 12:43
+9058931 | santiagoparis404       | Arreglar el push de la tarea cuando el repositorio s
+```
+
+El commit lo firma `github-actions[bot]`, no Santiago: lo hizo la tarea, no una persona. Y la hora del mensaje está en horario argentino (12:43, que son las 15:43 UTC), así que la conversión de zona horaria del workflow también quedó bien.
+
+### Queda confirmada la causa, y descartada la otra
+
+La corrida anterior había fallado por el choque de push, no por permisos. Lo había dejado escrito antes de esta corrida, así que lo sostengo con lo que pasó: **el arreglo era el correcto y el permiso de escritura de Actions ya estaba bien.** No hubo que tocar nada en Settings.
+
+El paso "Avisar si alguna fuente no respondió" quedó en `skipped`, que es lo que corresponde cuando las dos fuentes contestaron. Esa rama del workflow, la de la falla, sigue sin haberse ejercitado de verdad en GitHub: lo único probado de esa rama es la parte del tablero, que sí se probó en esta Mac rompiendo el host a propósito.
