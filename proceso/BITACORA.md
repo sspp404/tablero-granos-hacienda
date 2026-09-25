@@ -984,7 +984,7 @@ Su respuesta 10 dice "Once fallas anotadas mientras pasaban". Antes de transcrib
 
 ```
 fallas numeradas: 11
-### FALLA 1 ... ### FALLA 11
+(de FALLA 1 hasta FALLA 11, sin saltos)
 ```
 
 Es exacto. Con la falla 11 (el segundo intento con Cañuelas) el total pasó de diez a once, así que corregí el número donde había quedado viejo: en la pregunta 3 del README, que decía "diez fallas", y en el cierre de esta bitácora. El desglose correcto ahora es **seis del mundo o de las fuentes** (tres de ellas son el mismo Mercado Agroganadero, intentado por vías distintas), **tres errores míos de programación** y **dos veces que una herramienta de verificación me engañó**.
@@ -992,3 +992,32 @@ Es exacto. Con la falla 11 (el segundo intento con Cañuelas) el total pasó de 
 También verifiqué su respuesta 9, que dice que el freno se usó dos veces. Es correcto: el botón de actualizar (pedido 5, donde propuse la tarea automática en dos líneas y esperé el sí) y la propuesta de dar vuelta la jerarquía del tablero (pedido 16, rechazada). En los dos casos no construí antes de preguntar.
 
 Y su respuesta 8 dice que los dos controles terminaron siendo del mismo organismo. Es así y está en el README y en la propia pantalla del tablero.
+
+
+---
+
+## Corrección — 2026-09-25, 16:26 — Dos pedidos suyos que no había registrado
+
+Haciendo el control final de coherencia conté los pedidos del README contra los de esta bitácora y no daban. Revisando, **me faltaban dos mensajes de Santiago**. Van acá, textuales, con la posición que les corresponde. No renumero ni acomodo los que ya estaban: la bitácora se lleva mientras pasa y corregirla por atrás para que quede prolija sería justo lo que él pidió no hacer.
+
+**Entre el pedido 16 y el 17, primero este:**
+
+> listo, el trabajo esta 100% completo?
+
+Qué hice con él: no contesté de memoria. Verifiqué el estado real —local limpio, mismo commit que GitHub, repo público, Pages activo, link 200— y recién después contesté que sí en lo pedido, enumerando lo que queda como límite conocido (el `cron` sin dispararse, la rama de falla sin ejercitar, los controles del mismo organismo, el umbral del 70% fijado por mí, el ternero sin dato) y lo único que era tarea pendiente: pegar el link en Moodle.
+
+**Y después este:**
+
+> y como podria hacer para que quede perfecto?
+
+Qué hice con él: contesté contra la rúbrica real de la Entrega 1 y le dije dónde estaba flojo, que era el bloque de 30 puntos de comprensión de la lógica agéntica: en todo el repositorio no había un solo lugar donde se explicara qué hizo el agente y por qué. Le propuse tres cosas en orden de peso y esperé que eligiera. No construí nada antes de su respuesta.
+
+**Falta registrar también una línea suya de la entrevista**, que en su momento mencioné dentro del pedido 15 pero no puse textual:
+
+> ayudame a armar la respuesta
+
+Qué hice con él: no le escribí la respuesta. Le pasé los hechos crudos del caso del ternero y le hice tres preguntas más chicas; sus tres respuestas están en el README con las preguntas que las provocaron, para que se vea de dónde salió cada frase.
+
+### Por qué lo anoto en vez de taparlo
+
+Los tres son mensajes donde él decidía algo o me corregía el rumbo, que es exactamente lo que esta bitácora tiene que registrar. Que se me hayan pasado tres de dieciocho es un dato sobre cómo trabajé, no un detalle de formato: los perdí en el tramo final, cuando estaba encadenando verificaciones y respondiendo rápido. El control que los encontró fue contar los pedidos del README contra los de la bitácora, y lo hice recién al cierre. Debería haberlo hecho antes.

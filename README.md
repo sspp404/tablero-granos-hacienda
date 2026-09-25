@@ -59,7 +59,9 @@ El agente no ejecutó un plan cerrado: repitió un ciclo de **planear, actuar, o
 
 ## Cómo se lo pedí
 
-Los pedidos de Santiago, textuales, en orden, con su ortografía.
+Los pedidos de Santiago, textuales, en orden, con su ortografía. Son 21 y están todos.
+
+Una aclaración para que no confunda: la numeración de acá es la lista completa y ordenada. La de `proceso/BITACORA.md` es la del registro que se llevó mientras se trabajaba, y no coincide, porque tres mensajes se anotaron tarde. Están agregados al final de la bitácora, en una corrección fechada, sin renumerar lo anterior.
 
 **Pedido 1 — 2026-09-25, 12:26** (llegó como imagen de una hoja y como texto):
 
@@ -180,6 +182,38 @@ Los pedidos de Santiago, textuales, en orden, con su ortografía.
 
 (Después de hacer Fetch, Pull y Push.)
 
+**Pedido 15 — 2026-09-25, 15:55:**
+
+> si
+
+(Aceptando que el agente le fuera preguntando de a una las preguntas de "Qué aprendí" y transcribiendo sus respuestas.)
+
+**Pedido 16 — 2026-09-25, durante la entrevista:**
+
+> ayudame a armar la respuesta
+
+**Pedido 17 — 2026-09-25, 16:05:**
+
+> no, porque el grafico historico tambien lo podemos ver
+
+(Rechazando una propuesta del agente de dar vuelta la jerarquía del tablero.)
+
+**Pedido 18 — 2026-09-25, 16:08:**
+
+> listo, el trabajo esta 100% completo?
+
+**Pedido 19 — 2026-09-25, 16:10:**
+
+> y como podria hacer para que quede perfecto?
+
+**Pedido 20 — 2026-09-25, 16:12:**
+
+> no puedo esperar a manana porque se entrega hoy.
+> hace la explicacion con mis palabras, ya sabes mi prosa
+> intenta con canuelas
+
+**Pedido 21 — 2026-09-25, 16:20.** Contestó las cuatro preguntas adicionales sobre la lógica agéntica. El texto completo de sus respuestas está en "Qué aprendí", preguntas 7 a 10, sin resumir.
+
 ## Qué funciona
 
 Probado el 2026-09-25. Las capturas de cada prueba están en `proceso/evidencia/`.
@@ -243,6 +277,7 @@ Si una fuente no responde, la tarea igual publica el tablero con el último dato
 - **El Índice Novillo del Ministerio está abandonado.** El CSV de datos abiertos descarga bien pero su última fila es `2019-01-31`, y el endpoint en vivo (`/IndiceNovillo/GetPrecios`) devuelve `[]`. Era la mejor candidata a control independiente de hacienda.
 - **`matbarofex.com.ar` no respondió** en ninguno de los tres intentos (`HTTP 000`).
 
+- **Se me pasaron tres pedidos sin registrar en la bitácora.** El archivo tenía que llevar todos los mensajes de Santiago mientras pasaban, y en el tramo final —encadenando verificaciones y contestando rápido— perdí tres de veintiuno. Los encontré en el control de coherencia del cierre, contando los pedidos del README contra los de la bitácora, y ese control lo hice tarde. Están agregados al final del archivo en una corrección fechada, con su texto literal y la posición que les corresponde, sin renumerar ni acomodar lo anterior.
 - **La tarea automática falló en su primera corrida, por un defecto mío.** Había escrito `git push` a secas, sin prever que alguien pueda commitear mientras la tarea trabaja. Pasó en el primer intento: la tarea hizo checkout de `62ae3fc` y, mientras buscaba los datos, llegó otro commit al repositorio; GitHub rechazó el push. Se reprodujo el choque en un repositorio de prueba para confirmar la causa antes de tocar nada —el error es `! [rejected] main -> main (fetch first)`— y se arregló con `fetch-depth: 0` en el checkout y hasta tres intentos que ante un rechazo hacen `git pull --rebase --autostash` antes de volver a empujar. La corrida siguiente salió bien. Está contado paso a paso en la bitácora.
 
 **Limitaciones de lo que sí quedó funcionando**
