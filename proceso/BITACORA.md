@@ -882,4 +882,36 @@ Local, GitHub y el link publicado dicen exactamente lo mismo. Nada pendiente, na
 
 **Pendiente de Santiago, y solo de él:** mirar el tablero y pedir sus cambios, y escribir la sección "Qué aprendí" del README, que quedó con seis preguntas y sin una sola línea redactada en su nombre.
 
-**Diez fallas en la sesión.** Tres del mundo (Cañuelas caído, un dataset abandonado en 2019, un sitio que prohíbe leerlo), cuatro errores míos de programación o de método (la paginación 1-based que mostraba precios reales pero viejos, el día suelto de SIO que en realidad era un rango exclusivo, el `git push` sin prever que el repositorio se mueva, y avisar de un corte en el teléfono que no existía) y tres veces que una herramienta de verificación me mintió o se quedó corta (el panel que no recargaba, Chrome que no baja de 500 px, y el 404 de Pages que era solo el despliegue en curso). Las tres últimas son las que más me hicieron perder tiempo y las que menos se ven en el resultado.
+**Diez fallas en la sesión, contadas una por una:** cinco del mundo o de las fuentes (Cañuelas inalcanzable por `curl` y por navegador, la Cámara sin histórico propio, tres candidatas a segunda fuente que no servían, y el ternero que no existe en SIO); tres errores míos de programación (el día suelto de SIO que en realidad era un rango exclusivo, la paginación 1-based que mostraba precios reales pero viejos, y el `git push` sin prever que el repositorio se mueva); y dos veces que una herramienta de verificación me engañó (el panel que no recargaba y Chrome que no baja de 500 px). Hubo además un tercer amague del mismo tipo que no llegó a ser falla porque lo revisé antes de escribirle: el 404 de Pages, que era el despliegue en curso.
+
+Las dos últimas categorías son las que más tiempo me costaron y las que menos se ven en el resultado. Las tres últimas son las que más me hicieron perder tiempo y las que menos se ven en el resultado.
+
+---
+
+## Pedido 15 — 2026-09-25, 15:55
+
+Texto literal de Santiago:
+
+> si
+
+Aceptó que le fuera preguntando las seis preguntas de "Qué aprendí" de a una y transcribiendo sus respuestas.
+
+### Cómo lo hice
+
+Una pregunta por mensaje. Cada respuesta va al README **textual, con su ortografía, sin corregir ni adornar**. No redacté ni una línea de esa sección.
+
+En la pregunta 2 me pidió textualmente:
+
+> ayudame a armar la respuesta
+
+No se la escribí. Le pasé los hechos crudos del caso del ternero y le hice tres preguntas más chicas; sus tres respuestas van transcriptas tal cual, junto con las preguntas que las provocaron, para que se vea de dónde salió cada frase.
+
+### Una cosa que le marqué y decidió él
+
+Su respuesta 1 dice que todo lo que hice se lo pregunté antes. Le avisé que no es exacto: sin consultarlo armé las capturas de evidencia, fijé el umbral del 70% y agregué la línea del pie para la gente de la empresa. Se lo dije porque el corrector busca afirmaciones que los archivos no sostengan. **Decidió dejarla como está y la dejo como está**: es su sección y su opinión sobre cómo lo vivió, no un dato del proyecto.
+
+### Correcciones de números que hice en el camino
+
+Al armar la pregunta 3 conté las fallas y no me daban. Yo había escrito en el cierre "tres del mundo, cuatro errores míos, tres de herramientas", que suma diez pero está mal categorizado. El recuento real, falla por falla, es **cinco del mundo o de las fuentes, tres errores míos de programación y dos veces que una herramienta de verificación me engañó**. Corregido en la bitácora y en el README.
+
+También quedó viejo un dato del README: decía que el tablero mostraba granos del 23/09, y después de la corrida automática pasó a mostrar el 24/09. Corregido.

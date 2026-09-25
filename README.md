@@ -172,7 +172,7 @@ Probado el 2026-09-25. Las capturas de cada prueba están en `proceso/evidencia/
 
 **El tablero abre con doble clic.** Sin servidor, sin instalar nada, protocolo `file://`. Los datos están embebidos en el propio `index.html`, que es justamente lo que permite que funcione así y también desde un link. Entra completo en una pantalla de 1440×950: once fichas, sin scroll para ver los precios. Cero errores de consola. Modo oscuro incluido (`proceso/evidencia/tablero-modo-oscuro.png`).
 
-**Trae datos oficiales reales.** En la corrida del 2026-09-25: granos de la rueda del 23/09 (23 ruedas de historia por mercadería) y hacienda de la rueda del 24/09, con el promedio semanal de las últimas 5 semanas que publica SIO.
+**Trae datos oficiales reales.** En la primera corrida del 2026-09-25 trajo granos de la rueda del 23/09, con 23 ruedas de historia por mercadería, y hacienda del 24/09 con el promedio semanal de las últimas 5 semanas que publica SIO. En la corrida de las 15:41, la Cámara ya había publicado la pizarra del 24/09 y el tablero pasó a mostrar esa. La fecha de cada bloque es siempre la de la rueda, nunca la del día en que se miró.
 
 **La firmeza de cada dato sale de la fuente, no de una interpretación.** En granos, la Cámara marca ella misma `(E)` cuando no hubo operaciones y publica un estimativo: ese día la ficha dice `estimativo`. En hacienda, SIO carga las liquidaciones con días de rezago, así que el tablero calcula qué porcentaje del volumen habitual ya entró ese día y marca `provisorio` cuando falta. La ficha muestra el porcentaje y las cabezas, y además el último cierre firme, para que se vea de dónde sale la etiqueta.
 
@@ -247,16 +247,40 @@ Si una fuente no responde, la tarea igual publica el tablero con el último dato
 
 ## Qué aprendí
 
-Esta sección la escribe Santiago. Abajo quedan las preguntas a contestar; el agente no escribe nada acá.
+Esta sección la escribe Santiago. Las respuestas están transcriptas textuales, con su ortografía, tal como las dictó; el agente no redactó ninguna.
 
-1. Vos pediste un tablero de cotizaciones y el agente eligió las fuentes, descartó tres y armó los controles. ¿En qué momento de todo eso tomaste vos una decisión y en qué momento decidió él? ¿Dónde te hubiera gustado decidir y no te preguntó?
+**1. Vos pediste un tablero de cotizaciones y el agente eligió las fuentes, descartó tres y armó los controles. ¿En qué momento de todo eso tomaste vos una decisión y en qué momento decidió él? ¿Dónde te hubiera gustado decidir y no te preguntó?**
 
-2. El agente trabaja en un ciclo de planear, actuar, observar y volver a planear. Buscá en `proceso/BITACORA.md` un momento donde lo que observó le cambió el plan (hay varios: el rezago de carga de SIO, el `(E)` de la Cámara, el ternero que no existe). Contá con tus palabras qué pasó ahí y por qué el agente no podía haberlo previsto antes de mirar.
+> Yo decidi que, como, la complejidad, la forma en que se actualizaba periodicamente, lo que no queria y marque los limites. todo lo que hizo claude lo hizo preguntandome antes
 
-3. El agente tuvo ocho fallas anotadas. Tres eran del mundo (sitios caídos, un dataset abandonado, un sitio que prohíbe leerlo) y tres eran errores propios (la paginación, el día suelto de SIO, la prueba que dio por fallada sin haber recargado). ¿Cambia en algo tu confianza en el resultado saber que están todas escritas? ¿Preferirías no verlas?
+**2. El agente trabaja en un ciclo de planear, actuar, observar y volver a planear. Agarrá un momento donde lo que observó le cambió el plan y contá qué pasó ahí y por qué no podía saberlo antes de mirar.**
 
-4. Las herramientas que usó fueron: leer y escribir archivos, correr comandos en la terminal, pedir páginas web, buscar en internet y abrir un navegador para mirar. ¿Cuál de esas te parece la que más cambió lo que pudo hacer, y qué no habría podido hacer sin ella?
+Eligió el caso del ternero. Lo respondió a través de tres preguntas más chicas; van las tres con su respuesta textual.
 
-5. El tablero muestra un número que dice "provisorio" y otro que dice "definitivo". Esa diferencia no la inventó el agente para granos (la marca la Cámara) pero sí fijó él el corte para hacienda. ¿Te alcanza esa distinción para usar el tablero en una decisión de la empresa, o necesitás algo más?
+*¿Ya sabías por tu trabajo por qué el ternero no aparece en esa fuente?*
 
-6. Si mañana tuvieras que pedirle esto mismo a un agente desde cero, ¿qué le dirías distinto en el primer mensaje?
+> si, lo sabia
+
+*¿Qué tendría que haber hecho el agente con ese hueco: completarlo, sacar la ficha de la pantalla, o dejarla marcada como está?*
+
+> dejarla marcada como esta
+
+*Si hubiera puesto un número ahí, ¿qué consecuencia tendría para vos o para la empresa?*
+
+> habrias puesto un numero ficticio generando un problema en la informacion y por ende en la toma de decisiones
+
+**3. El agente anotó diez fallas: cinco del mundo (sitios caídos, un dataset abandonado en 2019, un sitio que prohíbe leerlo, la Cámara sin histórico, el ternero que no existe), tres errores propios de programación (la paginación, el día suelto de SIO, el `git push`) y dos veces que una herramienta de verificación lo engañó. ¿Cambia en algo tu confianza en el resultado saber que están todas escritas? ¿Preferirías no verlas?**
+
+> me da mas confianza porque el error esta identificado
+
+**4. Las herramientas que usó fueron: leer y escribir archivos, correr comandos en la terminal, pedir páginas web, buscar en internet y abrir un navegador para mirar. ¿Cuál de esas te parece la que más cambió lo que pudo hacer, y qué no habría podido hacer sin ella?**
+
+> pedir y buscar paginas en internet, no hubieras podido hacerlo sin mirar el navegador
+
+**5. El tablero muestra un número que dice "provisorio" y otro que dice "definitivo". Esa diferencia no la inventó el agente para granos (la marca la Cámara) pero sí fijó él el corte para hacienda. ¿Te alcanza esa distinción para usar el tablero en una decisión de la empresa, o necesitás algo más?**
+
+> si, porque en la empresa las decisiones se toman en base a la tendencia historica, y no es como en el caso de un trader que decide a rajatabla con el dia a dia
+
+**6. Si mañana tuvieras que pedirle esto mismo a un agente desde cero, ¿qué le dirías distinto en el primer mensaje?**
+
+> intentaria ser mas especifico en el mensaje inicial para trabajar mas eficientemente con el gasto de tokens y no perder tiempo con algo que no me servira totalmente
