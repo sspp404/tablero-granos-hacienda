@@ -685,3 +685,90 @@ Once fichas, la de Ternero marcada `SIN DATO`, los 16 controles, ningún aviso d
 ### Lo que sigue faltando
 
 La tarea de actualización automática **todavía no corrió**. La única corrida registrada en Actions es la del despliegue de Pages. Hasta que no se dispare una vez no puedo confirmar el permiso de escritura ni que el `git push` entre. Le voy a pedir que apriete el botón.
+
+---
+
+## Pedido 11 — 2026-09-25, 15:26
+
+Santiago apretó "Run workflow" y me mandó la captura de la corrida.
+
+### FALLA 10 — La tarea automática falló en su primera corrida
+
+Estado de la corrida (id 36153506875):
+
+```
+estado: completed | conclusion: failure
+duracion: 2026-09-25T15:20:31Z -> 2026-09-25T15:22:00Z
+
+job: actualizar | failure
+   Set up job                               success
+   Run actions/checkout@v4                  success
+   Run actions/setup-python@v5              success
+   Traer las cotizaciones                   success     <- las fuentes respondieron bien
+   Publicar el tablero actualizado          failure     <- aca murio
+```
+
+Lo bueno que se confirma de paso: **las fuentes contestan desde los servidores de GitHub**, no solo desde esta Mac. Eso era una incógnita.
+
+Quise leer el log del paso y no pude:
+
+```
+HTTP 403 | {"message": "Must have admin rights to Repository."}
+```
+
+Se lo pedí a Santiago. La captura que mandó no traía el log del paso, pero traía el dato que decidía todo, en el encabezado de la corrida:
+
+```
+sspp404  -o- 62ae3fc  main
+```
+
+**La tarea corrió sobre `62ae3fc`, no sobre `af9d98d`.** O sea: hizo el checkout a las 15:20:31, Santiago publicó `af9d98d` unos segundos después (la corrida de Pages de ese push figura a las 15:20:47), y cuando la tarea quiso publicar, el repositorio ya se había movido. GitHub rechaza ese push.
+
+Es un defecto mío, no de GitHub ni de él: escribí `git push` a secas, sin prever que alguien pueda commitear mientras la tarea corre. Y no es un caso raro: va a pasar cada vez que él toque el repo cerca de las 07 o las 18.
+
+### Qué probé antes de dar el arreglo por bueno
+
+No quise arreglar sobre una sospecha, así que reproduje el choque en el directorio temporal: armé un repositorio remoto vacío, lo cloné dos veces (uno haciendo de "la tarea", otro haciendo de "Santiago"), hice que Santiago publicara mientras la tarea trabajaba, y corrí el paso de publicar tal cual quedó en el workflow.
+
+El rechazo que salió es exactamente el que había predicho:
+
+```
+! [rejected]        main -> main (fetch first)
+error: failed to push some refs to '.../remoto.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref.
+```
+
+Y con el arreglo puesto, el reintento se reacomoda solo:
+
+```
+Push rechazado: el repositorio se movio mientras corria. Reintento 1.
+   dbbe8ef..eff8698  main -> origin/main
+   Rebasing (1/1)Successfully rebased and updated refs/heads/main.
+   eff8698..3588c64  main -> main
+Publicado en el intento 2.
+```
+
+Historia final, con las dos cosas adentro y nada perdido:
+
+```
+3588c64 Cotizaciones al 2026-09-25 12:26
+eff8698 Update BITACORA.md
+dbbe8ef base
+```
+
+El arreglo: `fetch-depth: 0` en el checkout (sin historia completa no se puede reacomodar) y un bucle de hasta tres intentos que ante un rechazo hace `git pull --rebase --autostash origin main` y vuelve a empujar.
+
+### Lo que este arreglo NO prueba
+
+Sigo sin el error literal de git de la corrida real. La evidencia del SHA es fuerte pero no es una prueba. **Si la próxima corrida vuelve a fallar en el mismo paso, la causa es la otra: el permiso de escritura de Actions en solo lectura**, y se arregla en Settings → Actions → General → Workflow permissions → "Read and write permissions". Queda dicho de antemano para no acomodar la explicación después.
+
+### Una advertencia que apareció y no es la causa
+
+```
+Node.js 20 is deprecated. The following actions target Node.js 20 but are being
+forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5
+```
+
+Es un aviso de GitHub sobre sus propias acciones, no un error, y no tiene nada que ver con la falla. No lo toco.

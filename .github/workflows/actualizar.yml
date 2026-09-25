@@ -19,6 +19,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # hace falta historia completa para poder reacomodarse si alguien publico mientras tanto
 
       - uses: actions/setup-python@v5
         with:
@@ -39,7 +41,20 @@ jobs:
             exit 0
           fi
           git commit -m "Cotizaciones al $(TZ=America/Argentina/Buenos_Aires date '+%Y-%m-%d %H:%M')"
-          git push
+
+          # Alguien puede haber publicado algo mientras esta tarea corria. Si pasa,
+          # GitHub rechaza el push. En ese caso nos reacomodamos arriba de lo que
+          # haya en el repositorio y reintentamos, hasta tres veces.
+          for intento in 1 2 3; do
+            if git push; then
+              echo "Publicado en el intento $intento."
+              exit 0
+            fi
+            echo "Push rechazado: el repositorio se movio mientras corria. Reintento $intento."
+            git pull --rebase --autostash origin main || exit 1
+          done
+          echo "No pude publicar despues de 3 intentos."
+          exit 1
 
       - name: Avisar si alguna fuente no respondio
         if: steps.traer.outcome == 'failure'
