@@ -549,3 +549,45 @@ La tarea commitea solo `index.html` y `datos/datos.json`. A propósito deja afue
 ### Qué NO pude probar, y lo digo antes de que se note
 
 **La tarea no corrió nunca de verdad**, porque no existe hasta que el repositorio esté en GitHub. Lo que está verificado es el YAML y la lógica de commit corriendo en esta Mac. Falta ver una corrida real: horario, permiso de escritura (`contents: write`) y que el `git push` entre. Queda anotado en el README como pendiente, no como hecho.
+
+---
+
+## Pedido 7 — 2026-09-25, 13:34
+
+Texto literal de Santiago:
+
+> Solo falta commit para que quede funciona do?
+
+### Qué hice con él
+
+Le contesté que no. Enumeré los cuatro pasos que faltan (commit local, publicar desde GitHub Desktop como repositorio público, activar Pages, verificar) y le avisé de dos cosas que se pueden trabar y todavía no se pueden comprobar: que GitHub puede venir con los permisos de escritura de Actions en solo lectura, y que Pages tarda unos minutos en levantar la primera vez. No construí nada.
+
+---
+
+## Pedido 8 — 2026-09-25, 13:36
+
+Texto literal de Santiago:
+
+> Ok
+
+Respuesta al "¿arranco con el paso 1?". La tomo como lo que es: sí al paso 1 y nada más.
+
+### Qué hice con él
+
+Herramienta: `Bash` + `git`. Usé la identidad que ya estaba configurada en la Mac (`santiagoparis404`, `mail@santiagoparis.com`); no la toqué.
+
+```
+git init -b main
+git add -A
+git commit
+```
+
+Resultado:
+
+```
+b819628 Tablero de cotizaciones de granos y hacienda en pie
+ 13 files changed, 4971 insertions(+)
+rama: main
+```
+
+Rama `main`, que es la que espera GitHub Pages. No subí nada a ningún lado: esto vive solo en la Mac.
